@@ -1,3 +1,4 @@
+
 # Week 3 Assignment: Life Tracker
 
 Submitted by: Gabriel Bremo
@@ -52,7 +53,7 @@ I would have liked to implement a more unique styling in my website, more detail
 
 * Reflect on your project demo, what went well? Were there things that maybe didn't go as planned? Did you notice something that your peer did that you would like to try next time?
 
-I believe may project demo went pretty well. The different UIs my peers came up with really inspired me to try adding a personal touch next time.
+I believe my project demo went pretty well. The different UIs my peers came up with really inspired me to try adding a personal touch next time.
 
 ### Open-source libraries used
 
@@ -65,7 +66,6 @@ I believe may project demo went pretty well. The different UIs my peers came up 
 - https://www.npmjs.com/package/jsonwebtoken
 - https://www.npmjs.com/package/morgan
 - https://www.npmjs.com/package/bcrypt
-- 
 
 ### Shout out
 
