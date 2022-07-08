@@ -28,6 +28,8 @@ export default function App() {
     setNutritionItems([])
     setTotalCaloriesPerDay([])
   }
+
+  
   console.log(totalCaloriesPerDay)
   return (
     <div className="app">
