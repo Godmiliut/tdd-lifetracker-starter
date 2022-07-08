@@ -9,7 +9,7 @@ export default function Navbar(props) {
       <nav className="Navbar">
         <div className="content">
             <Logo />
-            <NavLinks isLogged={props.isLogged} handleOnLog={props.handleOnLog}/>
+            <NavLinks user={props.user} setUser={props.setUser} handleLogout={props.handleLogout}/>
         </div>
       </nav>
     )

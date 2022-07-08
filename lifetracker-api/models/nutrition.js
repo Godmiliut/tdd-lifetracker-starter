@@ -5,7 +5,7 @@ class Nutrition {
 
     static async createNutrition({ nutrition, user }){
 
-        const requiredFields = ["name", "category", "calories", "image_url"]
+        const requiredFields = ["name", "category", "calories", "imageUrl"]
         requiredFields.forEach((field) => {
             if(!nutrition.hasOwnProperty(field)){
                 throw new BadRequestError(`Missing ${field} in request body`)
@@ -44,7 +44,7 @@ class Nutrition {
                 nutrition.category,
                 nutrition.calories,
                 nutrition.quantity,
-                nutrition.image_url,
+                nutrition.imageUrl,
                 user.email
             ]
         )
@@ -80,22 +80,12 @@ class Nutrition {
     }
 
     static async listNutritionForUser({ user }){
-
+        console.log(user)
         const results = await db.query(
             `
-            SELECT  n.id,
-                    n.name,
-                    n.category,
-                    n.calories,
-                    n.quantity,
-                    n.image_url AS "imageUrl",
-                    n.user_id AS "userId",
-                    u.email AS "userEmail",
-                    n.created_at AS "createdAt"
-            FROM nutrition AS n
-                JOIN users AS u ON u.id = n.user_id
-            WHERE n.user_id = (SELECT id FROM users WHERE email = $1)
-            ORDER BY n.created_at DESC
+            SELECT  *
+            FROM nutrition
+            WHERE user_id = (SELECT id FROM users WHERE email = $1)
             `, [user.email]
         )
         

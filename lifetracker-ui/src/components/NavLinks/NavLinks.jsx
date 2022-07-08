@@ -6,8 +6,8 @@ export default function NavLinks(props) {
      <ul className="links">
         <li><Link to="/activity">Activity</Link></li>
         <li><Link to="/nutrition">Nutrition</Link></li>
-        <li>{ props.isLogged ? <Link to="/"><button className="logout-button" onClick={props.handleOnLog}>Logout</button></Link> : <Link to="/login">Login</Link>}</li>
-        {props.isLogged ?
+        <li>{ props.user?.email ? <Link to="/"><button className="logout-button" onClick={props.handleLogout}>Logout</button></Link> : <Link to="/login">Login</Link>}</li>
+        {props.user?.email ?
         null
         :
         <li className="btn"><Link to="/register">Sign Up</Link></li>

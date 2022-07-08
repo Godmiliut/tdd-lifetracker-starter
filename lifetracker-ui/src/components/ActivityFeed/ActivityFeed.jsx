@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import SummaryStat from "components/SummaryStat/SummaryStat"
 
 export default function ActivityFeed(props) {
-    console.log(props.totalCaloriesPerDay)
+
     return (
         <div className="activity-feed">
             <div className="actions">

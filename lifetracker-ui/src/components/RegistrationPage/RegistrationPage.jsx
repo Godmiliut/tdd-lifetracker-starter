@@ -8,7 +8,7 @@ export default function RegistrationPage(props) {
       <div className="registration-page">
         <div className="card">
             <h2>Register</h2>
-            <RegistrationForm isLogged={props.isLogged} setIsLogged={props.setIsLogged} registrationForm={props.registrationForm} setRegistrationForm={props.setRegistrationForm} error={props.error} setError={props.setError}/>
+            <RegistrationForm user={props.user} setUser={props.setUser}/>
             <div className="footer">
                 <p>
                     Already have an account? Login

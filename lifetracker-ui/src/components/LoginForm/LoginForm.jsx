@@ -1,50 +1,60 @@
 import * as React from "react"
-import axios from "axios"
+import apiClient from "../../services/apiClient";
 import { useNavigate } from "react-router-dom"
 
 export default function LoginForm(props) {
-  
-  let navigate = useNavigate();
+  const navigate = useNavigate()
+  const [isProcessing, setIsProcessing] = React.useState(false)
+  const [error, setError] = React.useState("")
+  const [form, setForm] = React.useState({ email: "", password: "" })
+
+  React.useEffect(() => {
+    if (props.user?.email) {
+      navigate("/")
+    }
+  }, [props.user, navigate])
 
   function handleChange(evt){
-    props.setLoginForm((f) => ({...f, [evt.target.name]: evt.target.value}))
+    setForm((f) => ({...f, [evt.target.name]: evt.target.value}))
   }
 
   async function loginUser(evt){
-
     evt.preventDefault()
 
-    if(props.loginForm.email == "" || props.loginForm.password == ""){
-      props.setError("Missing an input value")
+    setIsProcessing(true)
+
+    if(form.email == "" || form.password == ""){
+      setError("Missing an input value")
       return
     }
-    else if(props.loginForm.email.indexOf("@") < 0){
-      props.setError("Please enter a valid email")
+    else if(form.email.indexOf("@") < 0){
+      setError("Please enter a valid email")
       return
     }
-    try {
-      const res = await axios.post(`http://localhost:3001/auth/login`, props.loginForm)
-      if(res?.data){
-        props.setIsLogged(true)
-        props.setError("")
-        props.setLoginForm({"email" : "", "password": ""})
-        navigate("/activity")
-      }
-    } catch (err) {
-      props.setError("Wrong email or password")
+
+    const { data, error } = await apiClient.loginUser({ email: form.email, password: form.password })
+    if (data) {
+      props.setUser(data.user)
+      apiClient.setToken(data.token)
     }
+    if (error) {
+      setError((e) => ({ ...e, form: error }))
+    }
+
+    setIsProcessing(false)
   }
+
 
     return (
       <div className="login-form">
         <div className="input-field">
             <label>Email</label>
-            <input className="form-input" type="email" name="email" placeholder="user@gmail.com" defaultValue={props.loginForm.email} onChange={handleChange}></input>
-            {props.error != ""?  <span className="error">{props.error}</span>: null}
+            <input className="form-input" type="email" name="email" placeholder="user@gmail.com" defaultValue={form.email} onChange={handleChange}></input>
+            {error != ""?  <span className="error">{error}</span>: null}
         </div>
         <div className="input-field">
             <label>Password</label>
-            <input className="form-input" name="password" placeholder="password" defaultValue={props.loginForm.password} onChange={handleChange}></input>
+            <input className="form-input" name="password" placeholder="password" defaultValue={form.password} onChange={handleChange}></input>
         </div>
         <button className="btn" onClick={loginUser}>Login</button>
       </div>

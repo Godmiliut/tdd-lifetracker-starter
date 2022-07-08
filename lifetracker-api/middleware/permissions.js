@@ -22,6 +22,25 @@ const authedUserOwnsNutrition = async (req, res, next) => {
 
 }
 
+const authedUserOwnsNutritions = async (req, res, next) => {
+    try{
+        const {user} = res.locals
+        const nutritions = await Nutrition.listNutritionForUser(user)
+        
+
+        if (nutritions[0].userEmail != user.email){
+            throw new ForbiddenError("Forbidden access")
+        }
+
+        res.locals.nutritions = nutritions
+
+        return next()
+    }catch(err){
+        return next(err)
+    }
+}
+
 module.exports = {
-    authedUserOwnsNutrition
+    authedUserOwnsNutrition,
+    authedUserOwnsNutritions
 }

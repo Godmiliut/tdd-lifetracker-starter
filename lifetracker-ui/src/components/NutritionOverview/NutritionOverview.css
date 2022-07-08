@@ -26,3 +26,7 @@
     padding-bottom: 50px;
 }
 
+.nutrition-overview .nutrition-details .nutrition-card {
+    justify-content:center;
+    align-items:center;
+}

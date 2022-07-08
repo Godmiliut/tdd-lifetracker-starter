@@ -1,11 +1,12 @@
 import * as React from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import "./NutritionCard.css"
 
 export default function NutritionCard(props) {
-  
+
     return (
       <div className="nutrition-card">
+        <Link to={`/nutrition/${props.nutritionId}`}>
         <div className="card-header">
             <img src={props.image} alt="nutrition"></img>
             <h2 className="title">{props.name}</h2>
@@ -21,9 +22,10 @@ export default function NutritionCard(props) {
           </div>
         </div>
         <div className="card-meta">
-            <small>{props.time}</small>
+            <small>{props.createdAt}</small>
             <small className="category">{props.category}</small>
           </div>
+          </Link>
       </div>
     )
   }
