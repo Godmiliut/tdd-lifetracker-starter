@@ -52,8 +52,16 @@ export default function NutritionForm(props) {
           props.setError("")
           props.setNutritionItems( f => [...f,nutritionForm])
           handleDays(nutritionForm.calories)
-          setNutritionForm({ "name" : "" , "calories" : 1, "imageUrl": "", "category": "", "quantity" : "", "time" : ""})
-          navigate("/nutrition")
+          try {
+            const res = await axios.post(`http://localhost:3001/nutrition/create`, nutritionForm)
+            if(res?.data){
+              props.setError("")
+              setNutritionForm({ "name" : "" , "calories" : 1, "imageUrl": "", "category": "", "quantity" : "", "time" : ""})
+              navigate("/nutrition")
+            }
+          } catch (err) {
+            props.setError("Something went wrong")
+          }
         }
       }
 
