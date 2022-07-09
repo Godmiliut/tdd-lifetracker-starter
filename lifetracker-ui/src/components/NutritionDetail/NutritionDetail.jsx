@@ -1,32 +1,37 @@
 import * as React from "react"
 import apiClient from "../../services/apiClient"
 import NutritionCard from "components/NutritionCard/NutritionCard"
+import { useNutritionContext } from "../../contexts/nutrition"
 import NotFound from "components/NotFound/NotFound"
 import { useParams } from "react-router-dom"
 
 export default function NutritionDetail(props) {
     const { nutritionId } = useParams()
-    const [nutrition, setNutrition] = React.useState({})
-    const [error, setEror] = React.useState("")
+    const {setIsLoading, setError, isLoading} = useNutritionContext()
+    const [nutrition, setNutrition] = React.useState(null)
 
-    async function getNutrition(){
-        const {data, err} = await apiClient.getNutritionById(nutritionId)
-        if(error){
-            setError(error)
-            console.log(error)
-        }
-        if(data){
-            setNutrition(data.nutrition)
-        }
-    }
+    console.log(nutritionId)
 
-    React.useEffect(() => {
-        getNutrition()
-    }, [])
+    React.useEffect(async () => {
+      setIsLoading(true)
 
+      const {data, error} = await apiClient.getNutritionById(nutritionId)
+
+      if(data?.nutrition){
+        setNutrition(data.nutrition)
+      }
+      if(error){
+        setError(error)
+      }
+
+      setIsLoading(false)
+
+    }, [setIsLoading, setError, setNutrition])
+
+    console.log()
     return (
       <div className="nutrition-detail">
-        {nutrition?  <NutritionCard key={nutrition.name} name={nutrition.name} id={nutrition.id} category={nutrition.category} calories={nutrition.calories} quantity={nutrition.quantity} imageUrl={nutrition.imageUrl} createdAt={nutrition.createdAt}/> : <NotFound />}
+        {nutrition?  <NutritionCard key={nutrition.name} nutrition={nutrition}/> : <NotFound />}
       </div>
     )
   }

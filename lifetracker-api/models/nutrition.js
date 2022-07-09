@@ -60,10 +60,10 @@ class Nutrition {
                     n.category,
                     n.calories,
                     n.quantity,
-                    n.image_url AS "imageUrl",
+                    n.image_url,
                     n.user_id AS "userId",
                     u.email AS "userEmail",
-                    n.created_at AS "createdAt"
+                    n.created_at 
             FROM nutrition AS n
                 JOIN users AS u ON u.id = n.user_id
             WHERE n.id = $1

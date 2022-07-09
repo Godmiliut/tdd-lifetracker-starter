@@ -1,18 +1,23 @@
 import * as React from "react"
 import apiClient from "../../services/apiClient"
 import { useNavigate } from "react-router-dom"
+import { useAuthContext } from "../../contexts/auth"
 
 export default function RegistrationForm(props) {
+
+  const { user, setUser } = useAuthContext()
   const navigate = useNavigate()
+
   const [isProcessing, setIsProcessing] = React.useState(false)
   const [error, setError] = React.useState("")
+
   const [form, setForm] = React.useState({ "email" : "", "username" : "", "firstName" : "", "lastName" : "", "password" : "", "passwordConfirm" : ""})
 
   React.useEffect(() => {
-    if (props.user?.email) {
+    if (user?.email) {
       navigate("/")
     }
-  }, [props.user, navigate])
+  }, [user, navigate, setUser])
 
   function handleChange(evt){
     setForm((f) => ({...f, [evt.target.name]: evt.target.value}))
@@ -40,33 +45,12 @@ export default function RegistrationForm(props) {
     if(error) setError("Error trying to registrate")
     
     if(data?.user) {
-      props.setUser(data.user)
       apiClient.setToken(data.token)
+      setUser(data.user)
+      navigate("/")
     }
 
     setIsProcessing(false)
-
-    /*try {
-      const res = await axios.post("http://localhost:3001/auth/register", {
-        email: props.registrationForm.email,
-        username: props.registrationForm.username,
-        password: props.registrationForm.password,
-        firstName: props.registrationForm.firstName,
-        lastName: props.registrationForm.lastName,
-      })
-
-      if(res?.data?.user){
-      props.setIsLogged(true)
-      props.setError("")
-      props.setRegistrationForm({"email" : "", "username" : "", "fisrtName" : "", "lastName" : "", "password" : "", "passwordConfirm" : ""})
-      navigate("/activity")
-      }
-
-    } catch(err) {
-      if(props.error == ""){
-        props.setError("Email or Username already in use")
-      }
-    } */
   }
 
     return (

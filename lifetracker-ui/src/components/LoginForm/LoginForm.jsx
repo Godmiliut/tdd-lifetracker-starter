@@ -1,18 +1,23 @@
 import * as React from "react"
 import apiClient from "../../services/apiClient";
 import { useNavigate } from "react-router-dom"
+import { useAuthContext } from "../../contexts/auth"
 
 export default function LoginForm(props) {
   const navigate = useNavigate()
+
+  const { user, setUser } = useAuthContext()
+  
   const [isProcessing, setIsProcessing] = React.useState(false)
   const [error, setError] = React.useState("")
+
   const [form, setForm] = React.useState({ email: "", password: "" })
 
   React.useEffect(() => {
-    if (props.user?.email) {
+    if (user?.email) {
       navigate("/")
     }
-  }, [props.user, navigate])
+  }, [user, navigate])
 
   function handleChange(evt){
     setForm((f) => ({...f, [evt.target.name]: evt.target.value}))
@@ -34,14 +39,13 @@ export default function LoginForm(props) {
 
     const { data, error } = await apiClient.loginUser({ email: form.email, password: form.password })
     if (data) {
-      props.setUser(data.user)
+      setUser(data.user)
       apiClient.setToken(data.token)
+      setIsProcessing(false)
     }
     if (error) {
       setError((e) => ({ ...e, form: error }))
     }
-
-    setIsProcessing(false)
   }
 
 
