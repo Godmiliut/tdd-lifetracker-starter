@@ -64,6 +64,6 @@ class ApiClient{
     }
 }
 
-const API = new ApiClient("https://lifetracker-gbb.herokuapp.com/")
+const API = new ApiClient("https://lifetracker-gbb.herokuapp.com")
 
 export default API
