@@ -9,7 +9,7 @@ export default function LoginForm(props) {
   const { user, setUser } = useAuthContext()
   
   const [isProcessing, setIsProcessing] = React.useState(false)
-  const [error, setError] = React.useState("")
+  const [errors, setErrors] = React.useState("")
 
   const [form, setForm] = React.useState({ email: "", password: "" })
 
@@ -29,22 +29,23 @@ export default function LoginForm(props) {
     setIsProcessing(true)
 
     if(form.email == "" || form.password == ""){
-      setError("Missing an input value")
+      setErrors((e) => ({ ...e, email: "Please enter a valid email." }))
       return
     }
     else if(form.email.indexOf("@") < 0){
-      setError("Please enter a valid email")
+      setErrors((e) => ({ ...e, email: null }))
       return
     }
 
     const { data, error } = await apiClient.loginUser({ email: form.email, password: form.password })
-    if (data) {
+    if (error) {
+      setErrors((e) => ({ ...e, form: error }))
+    }
+    if (data?.user) {
       setUser(data.user)
       apiClient.setToken(data.token)
       setIsProcessing(false)
-    }
-    if (error) {
-      setError((e) => ({ ...e, form: error }))
+      navigate("/activity")
     }
   }
 
@@ -54,7 +55,7 @@ export default function LoginForm(props) {
         <div className="input-field">
             <label>Email</label>
             <input className="form-input" type="email" name="email" placeholder="user@gmail.com" defaultValue={form.email} onChange={handleChange}></input>
-            {error != ""?  <span className="error">{error}</span>: null}
+            {(errors?.email !== null && form.email !== "") ? <span className="error">Please enter a valid email.</span> : null}
         </div>
         <div className="input-field">
             <label>Password</label>

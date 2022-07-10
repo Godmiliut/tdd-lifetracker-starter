@@ -23,7 +23,7 @@ export const NutritionContextProvider = ({ children }) => {
             }
     
             if (error) {
-                setError(err);
+                setError(error);
             }
         }
 
