@@ -26,7 +26,7 @@ Deployed Application: [Lifetracker Deployed Site](http://gainful-uncle.surge.sh/
 - [x] The detailed activity page should display a feed of all previous tracked activities.
 - [x] The detailed activity should contain a form to contain relevant information. (i.e if tracking nutrition this form allows the user to capture calories, timestamp, image, category, etc.) 
 - [x] The activity tracked should be given a unique id for easy lookup.
-  `TODO://lifetracker-schema.sql` 
+  ![Tables Schema](https://github.com/Godmiliut/tdd-lifetracker-starter/blob/main/lifetracker-api/lifetracker-schema.sql) 
 
 ### Stretch Features
 
