@@ -64,6 +64,6 @@ class ApiClient{
     }
 }
 
-const API = new ApiClient("http://localhost:3001")
+const API = new ApiClient("postgres://gkyjmdpsrniuai:be572c3c14589431e3efa61abd440b1bf77a70ae1ed7dd958b687ace208a4f25@ec2-3-223-169-166.compute-1.amazonaws.com:5432/d61flbstlierof")
 
 export default API
